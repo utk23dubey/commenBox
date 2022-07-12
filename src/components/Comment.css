@@ -1,0 +1,63 @@
+.form {
+  background: #ebe5e540;
+  padding: 20px;
+}
+
+.width-100 {
+  width: 100%;
+}
+
+.sortDate{
+    margin-bottom: 15px;
+    margin-top: 15px;
+    font-weight: bold;
+    display: flex;
+    justify-content: end;
+    cursor: pointer;
+}
+
+.comment-box {
+  background: #ebe5e540;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.container-between {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 10px;
+}
+.form-2 {
+  background: #ebe5e540;
+  padding: 20px;
+  margin-left: 40px;
+}
+
+.reply-form {
+    padding: 20px;
+    margin-left: 40px;
+}
+
+.btnBox{
+    color: blue !important;
+    border: none;
+    padding:10px;
+    margin-right:20px;
+    background: #f0ffff0d;
+  }
+
+
+.deleteBtn{
+    font-size: 15px;
+    position: absolute;
+    left: 79%;
+    border-radius: 50%;
+    color: #fff;
+    background: #1f1f1f;
+}

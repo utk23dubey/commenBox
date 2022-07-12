@@ -1,0 +1,12 @@
+
+
+.main{
+  display: block;
+  width:80% !important;
+  margin:20px !important;
+  padding: 20px !important;
+}
+
+.right{
+  text-align: right;
+}
