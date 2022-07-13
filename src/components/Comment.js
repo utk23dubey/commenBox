@@ -34,9 +34,9 @@ const Comment = (props) => {
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
+    event.preventDefault();
+    event.stopPropagation();
     if (form.checkValidity() === true) {
-      event.preventDefault();
-      event.stopPropagation();
       if (editComment) {
         const comment = {
           name: name,
@@ -63,11 +63,13 @@ const Comment = (props) => {
       }
       setName("");
       setText("");
+      setValidated(false);
     } else {
       event.preventDefault();
       event.stopPropagation();
+      setValidated(true);
     }
-    setValidated(true);
+    
   };
 
   const onRepliesAdd = (e, index) => {

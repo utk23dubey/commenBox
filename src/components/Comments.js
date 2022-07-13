@@ -115,8 +115,8 @@ function Comments(props) {
                   <i
                     className={
                       props.sortRepliesDate
-                        ? "bi bi-arrow-down"
-                        : "bi bi-arrow-up"
+                        ? "bi bi-arrow-up"
+                        : "bi bi-arrow-down"
                     }
                   ></i>{" "}
                 </div>

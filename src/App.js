@@ -18,39 +18,10 @@ function App() {
     sessionStorage.setItem("comments", JSON.stringify(comments));
   }, [comments]);
 
-  useEffect(() => {
-    if (!sortComments) {
-      if (!isEmpty(comments)) {
-       setComments(comments.sort(function (a, b) {
-          return moment(b.date).format("X") - moment(a.date).format("X");
-        }));
-      }
-    } else {
-      setJsonComments(comments.reverse());
-      sessionStorage.setItem("comments", JSON.stringify(comments));
-    }
-  }, [sortComments]);
 
   useEffect(() => {
     setJsonComments(JSON.parse(sessionStorage.getItem("comments")));
   }, [comments]);
-
-  useEffect(() => {
-    if (sortReplies) {
-      comments[sortRepliesIndex].replies.sort(function (a, b) {
-        return moment(b.date).format("X") - moment(a.date).format("X");
-      });
-      sessionStorage.setItem("comments", JSON.stringify(comments));
-      setJsonComments(comments);
-    } else {
-      if (!isEmpty(comments)) {
-        if (comments.length > 0) {
-          comments[sortRepliesIndex].replies.reverse();
-          sessionStorage.setItem("comments", JSON.stringify(comments));
-        }
-      }
-    }
-  }, [sortReplies]);
 
   useEffect(() => {
     sessionStorage.setItem("comments", "[]");
@@ -60,6 +31,9 @@ function App() {
     setComments((oldComments) => {
       if (!isEmpty(oldComments)) {
         const newState = [...oldComments, data];
+        newState.sort(function (a, b) {
+          return moment(b.date).format("X") - moment(a.date).format("X");
+        });
         return newState;
       } else {
         const newState = [];
@@ -80,7 +54,7 @@ function App() {
     });
   };
   const onReplyEdit = (data, indexComment, indexReply) => {
-    setComments((prevState) => {
+    setJsonComments((prevState) => {
       const newState = prevState.map((obj, i) => {
         if (indexComment === obj.id) {
           const indexRep = obj.replies.findIndex(
@@ -98,32 +72,38 @@ function App() {
         }
         return obj;
       });
+      sessionStorage.setItem("comments", JSON.stringify(newState));
       return newState;
     });
   };
   const addReply = (data, index) => {
-    setComments((prevState) => {
+    setJsonComments((prevState) => {
       const newState = prevState.map((obj, i) => {
         if (index === obj.id) {
           return {
             ...obj,
-            replies: [...prevState[comments.indexOf(obj)].replies, data],
+            replies: [...prevState[prevState.indexOf(obj)].replies, data],
           };
         }
         return obj;
       });
+      newState.sort(function (a, b) {
+        return moment(b.date).format("X") - moment(a.date).format("X");
+      });
+      sessionStorage.setItem("comments", JSON.stringify(newState));
       return newState;
     });
   };
 
   const onReply = (index) => {
-    setComments((prevState) => {
+    setJsonComments((prevState) => {
       const newState = prevState.map((obj, i) => {
         if (index === obj.id) {
           return { ...obj, onReply: !obj.onReply };
         }
         return obj;
       });
+      sessionStorage.setItem("comments", JSON.stringify(newState));
       return newState;
     });
   };
@@ -136,31 +116,34 @@ function App() {
   };
 
   const deleteReply = (index, index2) => {
-    setComments((prevState) => {
+    setJsonComments((prevState) => {
       const newState = prevState.map((obj, i) => {
-        if (index === i) {
+        if (index === obj.id) {
           const replies_new = obj.replies.filter(
-            (item, repIndex) => index2 !== repIndex
+            (item, repIndex) => index2 !== item.id
           );
           return { ...obj, replies: replies_new };
         }
         return obj;
       });
+      sessionStorage.setItem("comments", JSON.stringify(comments));
       return newState;
     });
   };
 
   const sortCommentsData = (data) => {
-    setSortComments(c=>{
-      return c=!c;
+    setSortComments((c) => {
+      const newState = !c;
+      return newState;
     });
+    json_comments.reverse();
   };
 
   const sortRepliesData = (index) => {
-    setSortReplies(c=>{
-      return c=!c;
+    setSortReplies((c) => {
+      return (c = !c);
     });
-    setRepliesIndex(index);
+    json_comments[index].replies.reverse();
   };
 
   //Comment-Box
